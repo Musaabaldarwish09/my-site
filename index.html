@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>موقعي الرسمي | مصعب</title>
+
+  <!-- ✅ منع استرجاع السكرول + ابدأ من أول الصفحة -->
+  <script>
+    (function () {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+      const toTop = () => window.scrollTo(0, 0);
+      toTop();
+      document.addEventListener("DOMContentLoaded", () => { toTop(); requestAnimationFrame(toTop); });
+      window.addEventListener("load", () => { toTop(); requestAnimationFrame(toTop); setTimeout(toTop, 50); });
+      window.addEventListener("pageshow", () => { toTop(); requestAnimationFrame(toTop); setTimeout(toTop, 50); });
+    })();
+  </script>
+
+  <style>
+    :root{
+      --accent1:#38bdf8;
+      --accent2:#2563eb;
+      --success:#22c55e;
+      --success-dark:#16a34a;
+
+      --glass: rgba(5,20,40,.55);
+      --glass2: rgba(5,20,40,.35);
+      --overlay1: rgba(0,0,0,.22);
+      --overlay2: rgba(0,0,0,.58);
+
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 25px 80px rgba(0,0,0,.45);
+
+      --text: #fff;
+      --muted: rgba(255,255,255,.82);
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+
+      --btnBg: rgba(255,255,255,.10);
+      --btnBorder: rgba(255,255,255,.18);
+
+      --pillBg: rgba(255,255,255,.08);
+      --pillBorder: rgba(255,255,255,.14);
+
+      --progressShadow: 0 8px 20px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0;}
+    html,body{height:100%;font-family:"Cairo",system-ui,Arial,sans-serif;scroll-behavior:smooth;}
+    body{
+      min-height:100vh;
+      background:url("image.png") center/cover no-repeat fixed;
+      color:var(--text);
+      overflow-x:hidden;
+      position:relative;
+      width:100%;
+    }
+
+    /* ===== Progress ===== */
+    .progress{
+      position:fixed; top:0; right:0;
+      height:4px; width:0%;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      z-index:9999;
+      box-shadow:var(--progressShadow);
+    }
+
+    /* ===== Overlay + Grain ===== */
+    .overlay{
+      min-height:100vh;
+      position:relative;
+      background: radial-gradient(1200px 600px at 50% 0%, var(--overlay1), var(--overlay2));
+      width:100%;
+    }
+    .overlay::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      opacity:.085;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+      mix-blend-mode: overlay;
+    }
+
+    /* ===== Navigation - الثلاث خطوط ثابتة ===== */
+    .nav-btn{
+      position:fixed; top:20px; left:20px;
+      z-index:9998;
+      width:50px; height:50px;
+      border-radius:14px;
+      border:1px solid var(--btnBorder);
+      background: var(--btnBg);
+      color:#fff; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+      font-size:24px;
+    }
+    .nav-btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.32);
+      background: rgba(255,255,255,.12);
+    }
+
+    .nav-drawer{
+      position:fixed; top:80px; left:20px;
+      width:min(280px, 88vw);
+      padding:14px;
+      border-radius:18px;
+      background: rgba(5,20,40,.85);
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 22px 70px rgba(0,0,0,.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index:9998;
+      opacity:0; transform: translateY(-10px);
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .nav-drawer.open{ opacity:1; transform: translateY(0); pointer-events:auto; }
+    .nav-drawer a{
+      display:block;
+      padding:12px 16px;
+      border-radius:14px;
+      color:#fff; text-decoration:none;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      margin-bottom:10px;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      text-align:right;
+    }
+    .nav-drawer a:hover{
+      transform: translateX(-2px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    /* ===== HERO ===== */
+    header.hero{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      position:relative;
+      z-index:1;
+      width:100%;
+    }
+
+    /* ===== Glass ===== */
+    .glass{
+      position:relative;
+      width:100%;
+      margin-top:0;
+      padding:70px 15px 160px;
+      text-align:center;
+      background:var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom:1px solid var(--border);
+      box-shadow:var(--shadow);
+      transform-origin: top center;
+      animation: panelReveal 1.25s ease forwards;
+      overflow: visible;
+    }
+
+    .glass::before{
+      content:"";
+      position:absolute;
+      inset:-120px -120px;
+      background:
+        radial-gradient(420px 220px at 30% 30%, rgba(56,189,248,.35), transparent 65%),
+        radial-gradient(520px 260px at 70% 40%, rgba(37,99,235,.30), transparent 68%),
+        radial-gradient(520px 320px at 50% 95%, rgba(56,189,248,.16), transparent 70%);
+      filter: blur(12px);
+      opacity:.9;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .glass::after{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-30%;
+      width:60%;
+      height:220%;
+      transform: rotate(18deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.10), transparent);
+      opacity:.35;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    .glass > *{ position:relative; z-index:1; }
+
+    .glass h1{
+      margin:0 0 20px;
+      font-size: clamp(30px, 7vw, 50px);
+      padding:0 10px;
+      font-weight:700;
+    }
+    .glass p{
+      margin:0 0 30px;
+      font-size: clamp(18px, 4.2vw, 22px);
+      color:var(--muted);
+      line-height:1.6;
+      padding:0 10px;
+    }
+
+    .cta{
+      display:flex;
+      gap:18px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:30px;
+      padding:0 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:18px 32px;
+      border-radius:16px;
+      border:1px solid var(--btnBorder);
+      color:#fff;
+      text-decoration:none;
+      background: var(--btnBg);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+      font-size:18px;
+      min-width:150px;
+      cursor:pointer;
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.34);
+      background: rgba(255,255,255,.12);
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+    }
+    .btn:hover::after{ opacity:1; }
+
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(56,189,248,.95), rgba(37,99,235,.95));
+      border-color: rgba(56,189,248,.55);
+    }
+    .btn.primary:hover{
+      background: linear-gradient(135deg, rgba(56,189,248,1), rgba(37,99,235,1));
+      box-shadow: 0 20px 55px rgba(37,99,235,.20);
+    }
+
+    /* ===== Avatar ===== */
+    .avatar{
+      position:absolute;
+      right:8%;
+      bottom:0;
+      transform: translateY(50%);
+      opacity:0;
+      animation: avatarIn .6s ease forwards;
+      animation-delay: 1.28s;
+      z-index:5;
+    }
+    .avatar-outer{
+      width:clamp(160px, 32vw, 220px);
+      height:clamp(160px, 32vw, 220px);
+      border-radius:50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      padding:10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .avatar-inner{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      background: rgba(0,0,0,.55);
+      padding:8px;
+    }
+    .avatar-inner img{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+    }
+
+    /* ===== Pills ===== */
+    .status-bar{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+      padding: 30px 15px 50px;
+      margin-top:0;
+      position:relative;
+      z-index:2;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:16px 20px;
+      border-radius:20px;
+      background: var(--pillBg);
+      border:1px solid var(--pillBorder);
+      color:#fff;
+      font-size:clamp(16px, 3.8vw, 18px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity:0;
+      transform: translateY(10px);
+      animation: pillIn .45s ease forwards;
+      max-width:90%;
+    }
+    .pill:nth-child(1){ animation-delay: 1.95s; }
+    .pill:nth-child(2){ animation-delay: 2.10s; }
+    .pill:nth-child(3){ animation-delay: 2.25s; }
+
+    .dot{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:#22c55e;
+      box-shadow: 0 0 16px rgba(34,197,94,.8);
+      flex-shrink:0;
+    }
+    .dot.blue{ background:#38bdf8; box-shadow: 0 0 16px rgba(56,189,248,.75); }
+    .dot.orange{ background:#f59e0b; box-shadow: 0 0 16px rgba(245,158,11,.75); }
+
+    /* ===== Wave ===== */
+    .wave{
+      width:100%;
+      height:clamp(90px, 16vw, 130px);
+      margin-top:-1px;
+      display:block;
+      position:relative;
+      z-index:1;
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.25));
+    }
+    .wave path{ fill: rgba(5,20,40,.35); }
+
+    /* ===== MAIN CONTENT ===== */
+    main{
+      width:100%;
+      max-width:100%;
+      margin:0 auto;
+      padding: 15px 15px 90px;
+      position:relative;
+      z-index:1;
+    }
+
+    .section{
+      margin-top:30px;
+      padding:30px 22px;
+      background: var(--glass2);
+      border:1px solid var(--border);
+      border-radius:22px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.20);
+      width:100%;
+    }
+
+    .section-title{
+      margin:0 0 18px;
+      font-size:clamp(24px, 6.5vw, 32px);
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:0 5px;
+      font-weight:700;
+    }
+    .section-sub{
+      margin:0 0 30px;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:clamp(17px, 4.2vw, 20px);
+      padding:0 5px;
+    }
+
+    .grid{
+      display:grid;
+      gap:20px;
+      width:100%;
+    }
+
+    .grid.skills{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.projects{ grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid.contact{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card{
+      background: var(--card);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:24px;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      min-height:140px;
+      position:relative;
+      overflow:hidden;
+      width:100%;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(240px 160px at 20% 15%, rgba(56,189,248,.18), transparent 55%),
+        radial-gradient(240px 180px at 80% 50%, rgba(37,99,235,.15), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .card:hover{
+      transform: translateY(-4px);
+      background: var(--card2);
+      border-color: rgba(255,255,255,.30);
+      box-shadow: 0 22px 70px rgba(0,0,0,.28);
+    }
+
+    .card:hover::before{ opacity:1; }
+
+    .skill-name{
+      font-weight:800;
+      margin:0 0 12px;
+      font-size:clamp(19px, 5vw, 24px);
+    }
+    .skill-meta{
+      margin:0;
+      color:var(--muted);
+      font-size:clamp(15px, 3.8vw, 18px);
+      line-height:1.6;
+    }
+
+    .project-title{
+      margin:0 0 14px;
+      font-weight:900;
+      font-size:clamp(20px, 5.5vw, 26px);
+    }
+    .project-desc{
+      margin:0 0 20px;
+      color:var(--muted);
+      font-size:clamp(15px, 3.8vw, 18px);
+      line-height:1.7;
+    }
+
+    .project-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .mini{
+      padding:14px 22px;
+      border-radius:14px;
+      font-size:clamp(15px, 3.8vw, 17px);
+      min-width:110px;
+    }
+
+    .contact-item a{
+      color:#fff;
+      text-decoration:none;
+      word-break:break-word;
+      font-size:clamp(15px, 3.8vw, 18px);
+    }
+    .contact-item a:hover{ text-decoration:underline; }
+
+    /* Reveal blur */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      filter: blur(6px);
+      transition: opacity .7s ease, transform .7s ease, filter .7s ease;
+    }
+    .reveal.show{
+      opacity:1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* Footer */
+    footer{
+      width:100%;
+      max-width:100%;
+      margin:40px auto 0;
+      padding:30px 15px 60px;
+      color: rgba(255,255,255,.72);
+      text-align:center;
+      position:relative;
+      z-index:1;
+      font-size:clamp(16px, 4vw, 18px);
+      border-top:1px solid rgba(255,255,255,.1);
+    }
+
+    /* ===== Follow Widget ===== */
+    .follow-widget{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:9997;
+
+      display:flex;
+      align-items:center;
+      gap:14px;
+
+      padding:14px 18px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(5,20,40,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+
+      opacity:0;
+      transform: translateY(10px);
+      animation: widgetIn .5s ease forwards;
+      animation-delay: 2.55s;
+    }
+
+    .fw-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:16px 22px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      font-size:clamp(15px, 3.8vw, 17px);
+      white-space:nowrap;
+      min-width: 120px;
+      justify-content: center;
+    }
+
+    .fw-btn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.30);
+    }
+
+    .fw-btn.primary{
+      border-color: rgba(56,189,248,.55);
+      background: linear-gradient(135deg, rgba(56,189,248,.9), rgba(37,99,235,.9));
+    }
+
+    .fw-btn.success{
+      border-color: rgba(34,197,94,.55);
+      background: linear-gradient(135deg, rgba(34,197,94,.9), rgba(21,128,61,.9));
+    }
+
+    /* Followers Count */
+    .fw-count{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:16px 22px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select:none;
+      white-space:nowrap;
+    }
+    .fw-count-num{
+      font-weight:900;
+      font-size:clamp(16px, 4vw, 20px);
+      line-height:1;
+    }
+    .fw-count-text{
+      color: rgba(255,255,255,.85);
+      font-size:clamp(14px, 3.5vw, 16px);
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      z-index:9999;
+      min-width: 280px;
+      max-width: calc(100vw - 36px);
+      padding:18px 22px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(5,20,40,.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.40);
+      color:#fff;
+
+      opacity:0;
+      transform: translateY(10px);
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .toast small{
+      color: rgba(255,255,255,.75);
+      display:block;
+      margin-top:10px;
+      line-height:1.6;
+      font-size:clamp(14px, 3.5vw, 16px);
+    }
+
+    /* Animations */
+    @keyframes panelReveal{
+      0%{opacity:0; transform: scaleX(.02) scaleY(.05); border-radius:999px;}
+      45%{opacity:1; transform: scaleX(.06) scaleY(1); border-radius:24px;}
+      100%{opacity:1; transform: scaleX(1) scaleY(1); border-radius: 0 0 32px 32px;}
+    }
+    @keyframes avatarIn{
+      from{opacity:0; transform: translateY(80%) scale(.86);}
+      to{opacity:1; transform: translateY(50%) scale(1);}
+    }
+    @keyframes pillIn{
+      from{opacity:0; transform: translateY(10px);}
+      to{opacity:1; transform: translateY(0);}
+    }
+    @keyframes widgetIn{
+      from{opacity:0; transform: translateY(10px);}
+      to{opacity:1; transform: translateY(0);}
+    }
+
+    /* ===== تحسينات للهواتف ===== */
+    @media (max-width: 768px) {
+      .glass { padding:60px 12px 140px; }
+
+      .status-bar {
+        order: 2;
+        margin-top: 100px;
+        padding: 20px 10px 40px;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .avatar {
+        position: relative !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        margin: 30px auto 40px !important;
+        order: 1;
+        animation: none !important;
+        opacity: 1 !important;
+      }
+
+      .avatar-outer {
+        width: clamp(140px, 40vw, 180px) !important;
+        height: clamp(140px, 40vw, 180px) !important;
+      }
+
+      .glass h1 { font-size: clamp(26px, 8vw, 34px) !important; margin-bottom: 15px !important; }
+      .glass p { font-size: clamp(16px, 4.5vw, 19px) !important; margin-bottom: 25px !important; }
+
+      .cta { flex-direction: column; align-items: center; gap: 15px; margin-top: 25px; }
+      .btn { width: 85%; max-width: 280px; padding: 16px 28px; font-size: 17px; min-width: 0; }
+
+      .pill {
+        width: 90%;
+        max-width: 320px;
+        padding: 14px 18px;
+        font-size: clamp(15px, 4vw, 17px) !important;
+        justify-content: flex-start;
+      }
+
+      .dot { width: 12px; height: 12px; }
+
+      .section { padding: 25px 18px; margin-top: 25px; }
+      .section-title { font-size: clamp(22px, 7vw, 28px) !important; margin-bottom: 15px; }
+      .section-sub { font-size: clamp(16px, 4.5vw, 19px) !important; margin-bottom: 25px; }
+
+      .grid.skills { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 18px; }
+      .grid.projects { grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 18px; }
+      .grid.contact { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 18px; }
+
+      .card { padding: 20px 18px; min-height: 120px; }
+      .skill-name { font-size: clamp(18px, 5vw, 22px) !important; }
+      .skill-meta { font-size: clamp(14px, 4vw, 17px) !important; }
+
+      .project-title { font-size: clamp(19px, 5.5vw, 24px) !important; }
+      .project-desc { font-size: clamp(14px, 4vw, 17px) !important; }
+
+      .mini { padding: 12px 20px; font-size: 15px; min-width: 100px; }
+
+      .nav-btn { top: 15px; left: 15px; width: 48px; height: 48px; font-size: 22px; }
+      .nav-drawer { top: 75px; left: 15px; width: calc(100vw - 30px); max-width: 300px; }
+
+      .follow-widget {
+        right: 12px;
+        bottom: 12px;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px 14px;
+        gap: 12px;
+        width: auto;
+        min-width: 200px;
+      }
+
+      .fw-btn, .fw-count { justify-content: center; padding: 14px 18px; }
+      .fw-btn { font-size: 16px; }
+      .fw-count-num { font-size: 17px; }
+      .fw-count-text { font-size: 15px; }
+
+      .toast {
+        left: 12px;
+        bottom: 12px;
+        max-width: calc(100vw - 24px);
+        padding: 16px 20px;
+      }
+      .toast small { font-size: 15px; }
+
+      main { padding: 15px 12px 70px; }
+      .wave { height: 80px; }
+
+      footer { padding: 25px 12px 50px; font-size: 16px; margin-top: 30px; }
+    }
+
+    @media (max-width: 480px) {
+      .glass { padding:50px 10px 120px; }
+      .glass h1 { font-size: 24px !important; }
+      .glass p { font-size: 16px !important; }
+      .btn { width: 90%; padding: 15px 24px; font-size: 16px; }
+      .avatar-outer { width: 150px !important; height: 150px !important; }
+      .status-bar { margin-top: 80px; }
+      .pill { padding: 12px 16px; font-size: 15px !important; width: 95%; }
+      .dot { width: 10px; height: 10px; }
+      .section { padding: 22px 16px; }
+      .section-title { font-size: 20px !important; }
+      .section-sub { font-size: 15px !important; }
+      .card { padding: 18px 16px; }
+      .follow-widget { width: calc(100vw - 24px); right: 12px; bottom: 12px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .glass { padding: 80px 25px 170px; }
+      .avatar { right: 10%; }
+      .avatar-outer { width: 190px; height: 190px; }
+      .status-bar { padding: 35px 20px 60px; }
+      .grid.skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.contact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      main { padding: 25px 25px 110px; max-width: 95%; }
+      .section { padding: 35px 28px; }
+    }
+
+    @media (min-width: 1025px) {
+      .grid.skills { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .grid.projects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .grid.contact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      main { max-width: min(1300px, 92vw); padding: 40px 25px 140px; }
+      .section { padding: 40px 35px; }
+      .status-bar { justify-content: center; gap: 20px; }
+      .pill { max-width: 350px; }
+    }
+
+    @media (max-height: 600px) and (orientation: landscape) {
+      .glass { padding: 40px 15px 100px; }
+      .avatar { right: 5%; transform: translateY(40%) scale(0.9); }
+      .avatar-outer { width: 120px; height: 120px; }
+      .status-bar { padding: 20px 15px 30px; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .pill { font-size: 14px !important; padding: 10px 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" id="progress"></div>
+
+  <button class="nav-btn" id="navBtn" aria-label="القائمة" title="القائمة">☰</button>
+  <nav class="nav-drawer" id="navDrawer">
+    <a href="#about">نبذة عنّي</a>
+    <a href="#skills">مهاراتي</a>
+    <a href="#projects">مشاريعي</a>
+    <a href="#posts">منشوراتي</a>
+    <a href="#contact">تواصل معي</a>
+  </nav>
+
+  <div class="overlay" id="top">
+    <header class="hero">
+      <div class="glass">
+        <div class="avatar">
+          <div class="avatar-outer">
+            <div class="avatar-inner">
+              <img src="image2.jpeg" alt="صورتي الشخصية">
+            </div>
+          </div>
+        </div>
+
+        <h1>مرحباً بكم ! مصعب الدرويش ... </h1>
+        <p>هذا موقعي الرسمي على الإنترنت</p>
+
+        <div class="cta">
+          <a class="btn primary" href="#projects">أعمالي</a>
+          <a class="btn" href="#contact">تواصل معي</a>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <span class="pill"><span class="dot"></span> متاح للتعاون</span>
+        <span class="pill"><span class="dot blue"></span> أطوّر حلول برمجية باستخدام Python</span>
+        <span class="pill"><span class="dot orange"></span> أبحث عن فرصة تدريب</span>
+      </div>
+
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,64 C240,112 480,112 720,64 C960,16 1200,16 1440,64 L1440,120 L0,120 Z"></path>
+      </svg>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2 class="section-title">حالياً أعمل على…</h2>
+        <p class="section-sub">تطوير موقعي الشخصي وتحسين تصميم الواجهة وبناء مشاريع لتقوية خبرتي.</p>
+      </section>
+
+      <section id="posts" class="section reveal">
+        <h2 class="section-title">منشوراتي</h2>
+        <p class="section-sub">آخر المنشورات التي أضيفها من Firebase.</p>
+        <div class="grid" id="postsList"></div>
+      </section>
+
+      <section id="about" class="section reveal">
+        <h2 class="section-title">نبذة عنّي</h2>
+        <p class="section-sub">
+          مهندس متخصص وموجّه نحو تحقيق النتائج، يسعى إلى توظيف خبراته العلمية والعملية في تطوير الحلول الهندسية المبتكرة
+          وتحقيق أهداف بكفاءة عالية.
+        </p>
+      </section>
+
+      <section id="skills" class="section reveal">
+        <h2 class="section-title">مهاراتي</h2>
+        <p class="section-sub">تقنيات أعمل عليها حالياً:</p>
+        <div class="grid skills">
+          <div class="card"><p class="skill-name">HTML / CSS / JavaScript</p><p class="skill-meta">بناء واجهات ويب تفاعلية باستخدام HTML، CSS، وJavaScript</p></div>
+          <div class="card"><p class="skill-name">Python</p><p class="skill-meta">أستخدم Python لبناء برامج وأدوات عملية، قابلة للتطوير.</p></div>
+          <div class="card"><p class="skill-name">Java</p><p class="skill-meta">أستخدم Java لفهم أساسيات البرمجة الكائنية وبناء تطبيقات منظمة وقابلة للتطوير.</p></div>
+          <div class="card"><p class="skill-name">Git / GitHub</p><p class="skill-meta">إدارة المشاريع ورفعها على الإنترنت.</p></div>
+        </div>
+      </section>
+
+      <section id="projects" class="section reveal">
+        <h2 class="section-title">مشاريعي</h2>
+        <p class="section-sub">وجود مشاريع حتى لو بسيطة يعطيك قوة واحتراف.</p>
+        <div class="grid projects">
+          <div class="card">
+            <p class="project-title">موقعي الشخصي</p>
+            <p class="project-desc">واجهة Glass حديثة مع أقسام منظمة وتأثيرات ناعمة.</p>
+            <div class="project-actions">
+              <a class="btn mini primary" href="#top">عرض</a>
+              <a class="btn mini" href="#" onclick="alert('ضع رابط GitHub هنا لاحقاً')">GitHub</a>
+            </div>
+          </div>
+          <div class="card">
+            <p class="project-title">Landing Page</p>
+            <p class="project-desc">صفحة هبوط لمنتج أو خدمة مع CTA واضح وتصميم جذاب.</p>
+            <div class="project-actions">
+              <a class="btn mini primary" href="#" onclick="alert('ضع رابط المشروع هنا لاحقاً')">عرض</a>
+              <a class="btn mini" href="#" onclick="alert('ضع رابط GitHub هنا لاحقاً')">GitHub</a>
+            </div>
+          </div>
+          <div class="card">
+            <p class="project-title">واجهة تسجيل دخول</p>
+            <p class="project-desc">تسجيل دخول Google صحيح عبر Firebase بدون أخطاء.</p>
+            <div class="project-actions">
+              <a class="btn mini primary" href="#top">جرب</a>
+              <a class="btn mini" href="#" onclick="alert('ضع رابط GitHub هنا لاحقاً')">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section reveal">
+        <h2 class="section-title">تواصل معي</h2>
+        <p class="section-sub">اختر الطريقة المناسبة للتواصل:</p>
+        <div class="grid contact">
+          <div class="card contact-item">
+            <p class="skill-name">Email</p>
+            <p class="skill-meta"><a href="mailto:musaab.aldarwish099@gmail.com">Via Email</a></p>
+          </div>
+          <div class="card contact-item">
+            <p class="skill-name">WhatsApp</p>
+            <p class="skill-meta"><a href="https://wa.me/306993323008" target="_blank" rel="noopener">Chat on WhatsApp</a></p>
+          </div>
+          <div class="card contact-item">
+            <p class="skill-name">Facebook</p>
+            <p class="skill-meta">
+              <a href="https://facebook.com/ms.b.aldrwysh" target="_blank" rel="noopener">Via Facebook</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> مصعب — Built with 🤎 by Musaab
+    </footer>
+  </div>
+
+  <!-- ✅ Follow + Auth Widget -->
+  <div class="follow-widget" id="followWidget" aria-label="المتابعة والإشعارات">
+    <button class="fw-btn primary" id="followBtn" type="button">🤎 تسجيل الدخول</button>
+
+    <div class="fw-count" id="followCount" aria-label="عدد المتابعين">
+      <span class="fw-count-num" id="followCountNum">0</span>
+      <span class="fw-count-text">متابع</span>
+    </div>
+
+    <button class="fw-btn" id="logoutBtn" type="button" style="display:none;">👋 تسجيل الخروج</button>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ✅ Firebase SDKs (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
+  <script>
+    // ===== أساسيات الصفحة =====
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const navBtn = document.getElementById('navBtn');
+    const navDrawer = document.getElementById('navDrawer');
+    navBtn.addEventListener('click', ()=> navDrawer.classList.toggle('open'));
+    document.addEventListener('click', (e)=>{
+      if(!navDrawer.contains(e.target) && e.target !== navBtn){
+        navDrawer.classList.remove('open');
+      }
+    });
+    navDrawer.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=> navDrawer.classList.remove('open'));
+    });
+
+    const items = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    }, {threshold: 0.12});
+    items.forEach(el=>io.observe(el));
+
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', ()=>{
+      const h = document.documentElement;
+      const sc = h.scrollTop;
+      const max = h.scrollHeight - h.clientHeight;
+      progress.style.width = (max ? (sc / max) * 100 : 0) + '%';
+    });
+
+    const toast = document.getElementById('toast');
+    let toastTimer = null;
+    function showToast(title, desc){
+      toast.innerHTML = `<strong>${title}</strong>${desc ? `<small>${desc}</small>` : ""}`;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove('show'), 2600);
+    }
+
+    // ✅ Firebase Configuration (نفس قيمك)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCl8aFNouYmc2VbdWP437QcnVeBtuwTMjU",
+      authDomain: "musaab-site.firebaseapp.com",
+      databaseURL: "https://musaab-site-default-rtdb.firebaseio.com",
+      projectId: "musaab-site",
+      storageBucket: "musaab-site.firebasestorage.app",
+      messagingSenderId: "606163088716",
+      appId: "1:606163088716:web:836309f87c7ef7e5e10be9"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    // ===== ✅ تسجيل الدخول الصحيح عبر Firebase (Popup/Redirect) =====
+    const followBtn = document.getElementById("followBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    let googleUser = null;
+    let userFollowRef = null;
+    let isFollowing = false;
+
+    async function signInGoogle() {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+
+        // ✅ Popup
+        const result = await auth.signInWithPopup(provider);
+        googleUser = result.user;
+
+        showToast("تم تسجيل الدخول ✅", googleUser.displayName || googleUser.email);
+        setupFollowButton();
+
+      } catch (e) {
+        console.error("Popup sign-in error:", e);
+
+        // ✅ لو البوب-أب محجوب: Redirect
+        const code = String(e.code || "");
+        if (code.includes("popup-blocked") || code.includes("popup-closed-by-user")) {
+          showToast("تنبيه", "سيتم التحويل لتسجيل الدخول...");
+          const provider = new firebase.auth.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: "select_account" });
+          await auth.signInWithRedirect(provider);
+          return;
+        }
+
+        showToast("خطأ في تسجيل الدخول", e.message || "حدث خطأ");
+      }
+    }
+
+    function handleLogout() {
+      auth.signOut().then(() => {
+        googleUser = null;
+        userFollowRef = null;
+        isFollowing = false;
+
+        logoutBtn.style.display = "none";
+        followBtn.className = "fw-btn primary";
+        followBtn.innerHTML = "🤎 تسجيل الدخول";
+        followBtn.onclick = signInGoogle;
+
+        showToast("تم تسجيل الخروج", "نراك قريباً 👋");
+      }).catch((e) => {
+        console.error("Logout error:", e);
+        showToast("خطأ في تسجيل الخروج", e.message || "حاول مرة أخرى");
+      });
+    }
+
+    // ===== نظام المتابعة =====
+    const followersRef = db.ref("followers");
+    const followCountNum = document.getElementById("followCountNum");
+
+    followersRef.on("value", (snap) => {
+      const v = snap.val();
+      followCountNum.textContent = (typeof v === "number") ? v : 0;
+    });
+
+    function setupFollowButton() {
+      if (!googleUser) return;
+
+      logoutBtn.style.display = "flex";
+      logoutBtn.onclick = handleLogout;
+
+      userFollowRef = db.ref(`userFollows/${googleUser.uid}`);
+
+      userFollowRef.on("value", (snap) => {
+        isFollowing = snap.val() === true;
+
+        if (isFollowing) {
+          followBtn.innerHTML = '<span style="margin-right:8px;">✅</span> تابع';
+          followBtn.className = "fw-btn success";
+        } else {
+          followBtn.innerHTML = '<span style="margin-right:8px;">🤎</span> متابعة';
+          followBtn.className = "fw-btn primary";
+        }
+        followBtn.onclick = toggleFollow;
+      });
+    }
+
+    async function toggleFollow() {
+      if (!googleUser) {
+        showToast("يجب تسجيل الدخول أولاً", "اضغط زر تسجيل الدخول");
+        return;
+      }
+
+      try {
+        if (isFollowing) {
+          await userFollowRef.set(false);
+          await followersRef.transaction(n => Math.max(0, (typeof n === "number" ? n : 0) - 1));
+          showToast("تم إلغاء المتابعة", "نأمل أن تعود قريباً!");
+        } else {
+          await userFollowRef.set(true);
+          await followersRef.transaction(n => (typeof n === "number" ? n + 1 : 1));
+
+          const userInfoRef = db.ref(`followersInfo/${googleUser.uid}`);
+          await userInfoRef.set({
+            name: googleUser.displayName || "مستخدم",
+            email: googleUser.email || "",
+            photo: googleUser.photoURL || "",
+            followedAt: firebase.database.ServerValue.TIMESTAMP,
+            uid: googleUser.uid
+          });
+
+          showToast("تمت المتابعة بنجاح! 🤎", "شكراً لمتابعتك " + (googleUser.displayName || ""));
+        }
+      } catch (e) {
+        console.error("Follow error:", e);
+        showToast("حدث خطأ", "حاول مرة أخرى لاحقاً");
+      }
+    }
+
+    // زر البداية
+    followBtn.onclick = signInGoogle;
+
+    // ✅ لو تم استخدام Redirect سابقاً
+    auth.getRedirectResult().then((result) => {
+      if (result && result.user) {
+        googleUser = result.user;
+        setupFollowButton();
+        showToast("تم تسجيل الدخول ✅", googleUser.displayName || googleUser.email);
+      }
+    }).catch((e) => {
+      console.error("Redirect result error:", e);
+    });
+
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        googleUser = user;
+        setupFollowButton();
+      } else {
+        logoutBtn.style.display = "none";
+        followBtn.className = "fw-btn primary";
+        followBtn.innerHTML = "🤎 تسجيل الدخول";
+        followBtn.onclick = signInGoogle;
+      }
+    });
+
+    // ===== المنشورات =====
+    const postsList = document.getElementById("postsList");
+    postsList.innerHTML = `<p class="section-sub">جارِ تحميل المنشورات...</p>`;
+
+    function escapeHtml(str){
+      return String(str ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function renderPosts(data){
+      if (!data) {
+        postsList.innerHTML = `<p class="section-sub">لا يوجد منشورات حالياً.</p>`;
+        return;
+      }
+
+      const arr = Object.entries(data)
+        .map(([id, p]) => ({ id, ...(p || {}) }))
+        .sort((a, b) => (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0));
+
+      postsList.innerHTML = arr.map(p => `
+        <div class="card" style="min-height:auto;">
+          <p class="project-title">${escapeHtml(p.title || "بدون عنوان")}</p>
+          <p class="project-desc">${escapeHtml(p.content || "")}</p>
+          <p class="skill-meta" style="margin:0;opacity:.85;">📅 ${escapeHtml(p.date || "")}</p>
+        </div>
+      `).join("");
+    }
+
+    db.ref("posts").on("value", (snap) => {
+      renderPosts(snap.val());
+    }, (err) => {
+      console.error("Posts error:", err);
+      postsList.innerHTML = `<p class="section-sub">تعذر تحميل المنشورات.</p>`;
+    });
+  </script>
+
+</body>
+</html>
